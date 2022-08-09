@@ -13,8 +13,12 @@ namespace MultiFileRenameTool
 {
     public partial class Form1 : Form
     {
+        DirectoryInfo d;
+        Directory directory;
         String Path;
         FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+        List<Directory> fileTree = new List<Directory>();
+        List<Directory> temporaryFileTree = new List<Directory>();
         public Form1()
         {
             InitializeComponent();
@@ -39,24 +43,7 @@ namespace MultiFileRenameTool
 
         private void SubmitPathBtn_Click(object sender, EventArgs e)
         {
-            ResetErrorLabel();
-            if (Check(PathLbl.Text))
-            {
-                DirectoryInfo d = new DirectoryInfo(@Path);
-                FileInfo[] infos = d.GetFiles();
-                try
-                {
-                    foreach (FileInfo f in infos)
-                    {
-                        File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, "")); // Careful!! This will replaces the text "abc_" anywhere in the path, including directory names.
-                    }
-                }
-                catch (ArgumentException)
-                {
-                    ErrorLbl.Text += "The Folder does not contain a file with the text that you entered";
-                }
-                
-            }
+            renameFilesInSpecificFolder(Path);
         }
 
         private Boolean Check(String input)
@@ -73,6 +60,79 @@ namespace MultiFileRenameTool
         private void ResetErrorLabel()
         {
             ErrorLbl.Text = "";
+        }
+
+        private void testBtn_Click(object sender, EventArgs e)
+        {
+            collectSubDirectories();
+
+            foreach(Directory dr in fileTree){
+                renameFilesInSpecificFolder(dr.path);
+            }
+        }
+
+        public void renameFilesInSpecificFolder(String path)
+        {
+            ResetErrorLabel();
+            if (Check(PathLbl.Text))
+            {
+                DirectoryInfo d = new DirectoryInfo(@path);
+                FileInfo[] infos = d.GetFiles();
+                try
+                {
+                    foreach (FileInfo f in infos)
+                    {
+                        File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, ""));
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    ErrorLbl.Text += "The Folder does not contain a file with the text that you entered";
+                }
+
+            }
+        }
+
+        private void collectSubDirectories()
+        {
+            int j = 1;
+            for (int i = 0; i < j; i++)
+            {
+                foreach (Directory dir in fileTree)
+                {
+                    if (dir.notClear)
+                    {
+                        Boolean anotherLapNeeded = false;
+                        foreach (DirectoryInfo di in dir.dirs)
+                        {
+                            directory = new Directory(di.GetFiles(), di.GetDirectories(), di.FullName);
+                            temporaryFileTree.Add(directory);
+                            anotherLapNeeded = true;
+                        }
+
+                        if (anotherLapNeeded)
+                        {
+                            j++;
+                        }
+
+                        dir.notClear = false;
+                    }
+                }
+
+                foreach (Directory dir in temporaryFileTree)
+                {
+                    fileTree.Add(dir);
+                }
+
+                temporaryFileTree.Clear();
+
+            }
+            
+            Console.WriteLine("test");
+            //foreach (FileInfo f in fileTree.ElementAt(0).infos)
+            //{
+            //    File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, ""));
+            //}         
         }
     }
 }

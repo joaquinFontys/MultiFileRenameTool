@@ -29,17 +29,20 @@ namespace MultiFileRenameTool
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.PathLbl = new System.Windows.Forms.Label();
             this.SelectPathBtn = new System.Windows.Forms.Button();
             this.WordToRemoveTxb = new System.Windows.Forms.TextBox();
             this.SubmitPathBtn = new System.Windows.Forms.Button();
             this.ErrorLbl = new System.Windows.Forms.Label();
+            this.testBtn = new System.Windows.Forms.Button();
+            this.DescriptionLbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // PathLbl
             // 
             this.PathLbl.AutoSize = true;
-            this.PathLbl.Location = new System.Drawing.Point(135, 139);
+            this.PathLbl.Location = new System.Drawing.Point(13, 111);
             this.PathLbl.Name = "PathLbl";
             this.PathLbl.Size = new System.Drawing.Size(74, 15);
             this.PathLbl.TabIndex = 0;
@@ -47,7 +50,7 @@ namespace MultiFileRenameTool
             // 
             // SelectPathBtn
             // 
-            this.SelectPathBtn.Location = new System.Drawing.Point(135, 113);
+            this.SelectPathBtn.Location = new System.Drawing.Point(12, 85);
             this.SelectPathBtn.Name = "SelectPathBtn";
             this.SelectPathBtn.Size = new System.Drawing.Size(75, 23);
             this.SelectPathBtn.TabIndex = 1;
@@ -57,14 +60,14 @@ namespace MultiFileRenameTool
             // 
             // WordToRemoveTxb
             // 
-            this.WordToRemoveTxb.Location = new System.Drawing.Point(135, 157);
+            this.WordToRemoveTxb.Location = new System.Drawing.Point(13, 128);
             this.WordToRemoveTxb.Name = "WordToRemoveTxb";
             this.WordToRemoveTxb.Size = new System.Drawing.Size(100, 23);
             this.WordToRemoveTxb.TabIndex = 2;
             // 
             // SubmitPathBtn
             // 
-            this.SubmitPathBtn.Location = new System.Drawing.Point(241, 156);
+            this.SubmitPathBtn.Location = new System.Drawing.Point(93, 85);
             this.SubmitPathBtn.Name = "SubmitPathBtn";
             this.SubmitPathBtn.Size = new System.Drawing.Size(75, 23);
             this.SubmitPathBtn.TabIndex = 3;
@@ -81,11 +84,33 @@ namespace MultiFileRenameTool
             this.ErrorLbl.Size = new System.Drawing.Size(0, 15);
             this.ErrorLbl.TabIndex = 4;
             // 
+            // testBtn
+            // 
+            this.testBtn.Location = new System.Drawing.Point(174, 85);
+            this.testBtn.Name = "testBtn";
+            this.testBtn.Size = new System.Drawing.Size(75, 23);
+            this.testBtn.TabIndex = 5;
+            this.testBtn.Text = "Test";
+            this.testBtn.UseVisualStyleBackColor = true;
+            this.testBtn.Click += new System.EventHandler(this.testBtn_Click);
+            // 
+            // DescriptionLbl
+            // 
+            this.DescriptionLbl.AutoSize = true;
+            this.DescriptionLbl.Font = new System.Drawing.Font("Lucida Console", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.DescriptionLbl.Location = new System.Drawing.Point(12, 34);
+            this.DescriptionLbl.Name = "DescriptionLbl";
+            this.DescriptionLbl.Size = new System.Drawing.Size(635, 48);
+            this.DescriptionLbl.TabIndex = 6;
+            this.DescriptionLbl.Text = resources.GetString("DescriptionLbl.Text");
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.DescriptionLbl);
+            this.Controls.Add(this.testBtn);
             this.Controls.Add(this.ErrorLbl);
             this.Controls.Add(this.SubmitPathBtn);
             this.Controls.Add(this.WordToRemoveTxb);
@@ -106,6 +131,8 @@ namespace MultiFileRenameTool
         private System.Windows.Forms.TextBox WordToRemoveTxb;
         private System.Windows.Forms.Button SubmitPathBtn;
         private System.Windows.Forms.Label ErrorLbl;
+        private System.Windows.Forms.Button testBtn;
+        private System.Windows.Forms.Label DescriptionLbl;
     }
 }
 

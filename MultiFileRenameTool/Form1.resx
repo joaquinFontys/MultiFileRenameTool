@@ -57,4 +57,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DescriptionLbl.Text" xml:space="preserve">
+    <value>This application removes parts of file names. 
+enter the word or sentence that you want to remove from a file name in the textbox 
+bellow and select the folder where the file is in.The result will be that the the name of 
+all files in the folder will be renamed to not have the word in its name.
+</value>
+  </data>
 </root>
