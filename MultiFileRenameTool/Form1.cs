@@ -15,8 +15,8 @@ namespace MultiFileRenameTool
 {
     public partial class MultiFileRenameTool : MaterialForm
     {
-        Directory directory; 
-        String Path;
+        Directory directory;
+        string rootPath;
         FolderBrowserDialog folderDlg = new FolderBrowserDialog();
         // Lists used for renaming files in multiple sub folders
         List<Directory> fileTree = new List<Directory>();
@@ -43,15 +43,15 @@ namespace MultiFileRenameTool
             try
             {
                 //setting the top directory as the first element of the fileTree list
-                DirectoryInfo d = new DirectoryInfo(@Path);
-                directory = new Directory(d.GetFiles(), d.GetDirectories(), @Path);
+                DirectoryInfo d = new DirectoryInfo(rootPath);
+                directory = new Directory(d.GetFiles(), d.GetDirectories(), rootPath);
                 fileTree.Add(directory);
                 //now we will collect all the directories starting from the top directory
                 collectSubDirectories();
                 // now we rename the files in all these directories one by one
                 foreach (Directory dr in fileTree)
                 {
-                    renameFilesInSpecificFolder(dr.path);
+                    renameFilesInSpecificFolderAsync(dr.path);
                 }
             }
             catch (ArgumentNullException)
@@ -66,15 +66,15 @@ namespace MultiFileRenameTool
             DialogResult result = folderDlg.ShowDialog();
             if (result == DialogResult.OK)
             {
-                Path = folderDlg.SelectedPath;
+                rootPath = folderDlg.SelectedPath;
                 Environment.SpecialFolder root = folderDlg.RootFolder;
-                PathLbl.Text = Path;
+                PathLbl.Text = rootPath;
             }
         }
 
         private void SubmitPathBtn_Click_1(object sender, EventArgs e)
         {
-            renameFilesInSpecificFolder(Path);
+            renameFilesInSpecificFolderAsync(rootPath);
         }
 
         private Boolean Check(String input)
@@ -100,7 +100,7 @@ namespace MultiFileRenameTool
             ErrorLbl.Text = "";
         }
 
-        public void renameFilesInSpecificFolder(String path)
+        public async Task renameFilesInSpecificFolderAsync(String path)
         {
             // uses a specific path and renames all the files there to not have a user provided word or sentence
             ResetErrorLabel();
@@ -111,7 +111,8 @@ namespace MultiFileRenameTool
                 DirectoryInfo d = new DirectoryInfo(@path);
                 FileInfo[] infos = d.GetFiles();
                 // just a number to put in the file incase it already exists within the folder
-                int version = 1;
+                string textFilePath = Path.GetDirectoryName(Application.ExecutablePath) + "\\Files\\number.txt";
+                long version = Int64.Parse(System.IO.File.ReadAllText(@textFilePath));
                 foreach (FileInfo f in infos)
                 {                        
                     try
@@ -124,6 +125,7 @@ namespace MultiFileRenameTool
                         // here we change the files name to something with a number in case it is duplicate
                         File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, " " + version));
                         version++;
+                        await File.WriteAllTextAsync(@textFilePath, version.ToString());
                     }
                     catch (ArgumentException)
                     {
