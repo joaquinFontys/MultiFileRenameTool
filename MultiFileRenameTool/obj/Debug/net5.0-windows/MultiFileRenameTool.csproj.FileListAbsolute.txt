@@ -5,7 +5,6 @@ D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\bin\Debug\net5.0-w
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\bin\Debug\net5.0-windows\MultiFileRenameTool.dll
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\bin\Debug\net5.0-windows\ref\MultiFileRenameTool.dll
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\bin\Debug\net5.0-windows\MultiFileRenameTool.pdb
-D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.Form1.resources
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.csproj.GenerateResource.cache
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.GeneratedMSBuildEditorConfig.editorconfig
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.AssemblyInfoInputs.cache
@@ -16,3 +15,6 @@ D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-w
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.pdb
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.genruntimeconfig.cache
 D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.csprojAssemblyReference.cache
+D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\bin\Debug\net5.0-windows\MaterialSkin.dll
+D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.MultiFileRenameTool.resources
+D:\Coding_projects\C#\MultiFileRenameTool\MultiFileRenameTool\obj\Debug\net5.0-windows\MultiFileRenameTool.csproj.CopyComplete

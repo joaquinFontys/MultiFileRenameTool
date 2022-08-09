@@ -1,11 +1,39 @@
 {
   "version": 3,
   "targets": {
-    "net5.0-windows7.0": {}
+    "net5.0-windows7.0": {
+      "MaterialSkin.NET5/1.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0-windows7.0/MaterialSkin.dll": {}
+        },
+        "runtime": {
+          "lib/net5.0-windows7.0/MaterialSkin.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ]
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "MaterialSkin.NET5/1.0.1": {
+      "sha512": "zrr9D88fhzsZ+1wQ/0utFFXpwaqZiPV9dd+t3UyyPW0F8h8uekF/01uJQ3cbMMSIAwV/GonuvHE2KyUYFARx4w==",
+      "type": "package",
+      "path": "materialskin.net5/1.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net5.0-windows7.0/MaterialSkin.dll",
+        "materialskin.net5.1.0.1.nupkg.sha512",
+        "materialskin.net5.nuspec"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net5.0-windows7.0": []
+    "net5.0-windows7.0": [
+      "MaterialSkin.NET5 >= 1.0.1"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Joa\\.nuget\\packages\\": {}
@@ -45,6 +73,12 @@
     "frameworks": {
       "net5.0-windows7.0": {
         "targetAlias": "net5.0-windows",
+        "dependencies": {
+          "MaterialSkin.NET5": {
+            "target": "Package",
+            "version": "[1.0.1, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

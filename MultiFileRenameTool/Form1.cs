@@ -8,24 +8,56 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MaterialSkin;
+using MaterialSkin.Controls;
 
 namespace MultiFileRenameTool
 {
-    public partial class Form1 : Form
+    public partial class MultiFileRenameTool : MaterialForm
     {
-        Directory directory;
+        Directory directory; 
         String Path;
         FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+        // Lists used for renaming files in multiple sub folders
         List<Directory> fileTree = new List<Directory>();
         List<Directory> temporaryFileTree = new List<Directory>();
-        public Form1()
+
+        public MultiFileRenameTool()
         {
             InitializeComponent();
+            // we load in the custom theme here
+            MaterialSkinManager materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+                       
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             
+        }
+
+        private void allFoldersBtn_Click(object sender, EventArgs e)
+        {
+            // uses the directory locations obtained by the coolecSubDirectories method and uses them in a method that renames files
+            try
+            {
+                //setting the top directory as the first element of the fileTree list
+                DirectoryInfo d = new DirectoryInfo(@Path);
+                directory = new Directory(d.GetFiles(), d.GetDirectories(), @Path);
+                fileTree.Add(directory);
+                //now we will collect all the directories starting from the top directory
+                collectSubDirectories();
+                // now we rename the files in all these directories one by one
+                foreach (Directory dr in fileTree)
+                {
+                    renameFilesInSpecificFolder(dr.path);
+                }
+            }
+            catch (ArgumentNullException)
+            {
+                ErrorLbl.Text += "Please select a path";
+            }
         }
 
         private void SelectPathBtn_Click(object sender, EventArgs e)
@@ -40,7 +72,7 @@ namespace MultiFileRenameTool
             }
         }
 
-        private void SubmitPathBtn_Click(object sender, EventArgs e)
+        private void SubmitPathBtn_Click_1(object sender, EventArgs e)
         {
             renameFilesInSpecificFolder(Path);
         }
@@ -53,66 +85,57 @@ namespace MultiFileRenameTool
                 ErrorLbl.Text = "No path was selected";
                 return false;
             }
+            // checks if the word doesnt have a . in it because it would break files if it did
+            if (WordToRemoveTxb.Text.EndsWith("."))
+            {
+                ErrorLbl.Text = ("Are you sure you want to use this term? This could potentially break files");
+                return false;
+            }
             return true;
         }
 
         private void ResetErrorLabel()
         {
+            // resets the error notificator label back to a state where nothing is in it
             ErrorLbl.Text = "";
-        }
-
-        private void testBtn_Click(object sender, EventArgs e)
-        {
-            DirectoryInfo d = new DirectoryInfo(@Path);
-            directory = new Directory(d.GetFiles(), d.GetDirectories(), @Path);
-            fileTree.Add(directory);
-
-            collectSubDirectories();
-
-            foreach(Directory dr in fileTree){
-                renameFilesInSpecificFolder(dr.path);
-            }
         }
 
         public void renameFilesInSpecificFolder(String path)
         {
+            // uses a specific path and renames all the files there to not have a user provided word or sentence
             ResetErrorLabel();
+
             if (Check(PathLbl.Text))
             {
+                //aitaining information about the files that are at the path 
                 DirectoryInfo d = new DirectoryInfo(@path);
                 FileInfo[] infos = d.GetFiles();
-                try
-                {
-                    int version = 1;
-                    foreach (FileInfo f in infos)
-                    {                        
-                        try
-                        {
-                            File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, ""));
-                        }
-                        catch (System.IO.IOException)
-                        {
-                            File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, " " + version));
-                            version++;
-                        }
+                // just a number to put in the file incase it already exists within the folder
+                int version = 1;
+                foreach (FileInfo f in infos)
+                {                        
+                    try
+                    {
+                        // this is the part where it actually changes the files name
+                        File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, ""));
                     }
-                    
-                }
-                catch (ArgumentException)
-                {
-                    ErrorLbl.Text += "The Folder does not contain a file with the text that you entered";
-                }
-                
-                //catch (file)
-                //{
-
-                //}
-
+                    catch (System.IO.IOException)
+                    {
+                        // here we change the files name to something with a number in case it is duplicate
+                        File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, " " + version));
+                        version++;
+                    }
+                    catch (ArgumentException)
+                    {
+                        ErrorLbl.Text += "The Folder does not contain a file with the text that you entered";
+                    }
+                }                       
             }
         }
 
         private void collectSubDirectories()
         {
+            // TODO: document and refactor this function
             int j = 1;
             for (int i = 0; i < j; i++)
             {
@@ -120,19 +143,12 @@ namespace MultiFileRenameTool
                 {
                     if (dir.notClear)
                     {
-                        Boolean anotherLapNeeded = false;
                         foreach (DirectoryInfo di in dir.dirs)
                         {
                             directory = new Directory(di.GetFiles(), di.GetDirectories(), di.FullName);
                             temporaryFileTree.Add(directory);
-                            anotherLapNeeded = true;
                         }
-
-                        if (anotherLapNeeded)
-                        {
-                            j++;
-                        }
-
+                        j++;
                         dir.notClear = false;
                     }
                 }
@@ -145,12 +161,6 @@ namespace MultiFileRenameTool
                 temporaryFileTree.Clear();
 
             }
-            
-            Console.WriteLine("test");
-            //foreach (FileInfo f in fileTree.ElementAt(0).infos)
-            //{
-            //    File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, ""));
-            //}         
         }
     }
 }
