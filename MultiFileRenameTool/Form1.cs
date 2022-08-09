@@ -13,7 +13,6 @@ namespace MultiFileRenameTool
 {
     public partial class Form1 : Form
     {
-        DirectoryInfo d;
         Directory directory;
         String Path;
         FolderBrowserDialog folderDlg = new FolderBrowserDialog();
@@ -64,6 +63,10 @@ namespace MultiFileRenameTool
 
         private void testBtn_Click(object sender, EventArgs e)
         {
+            DirectoryInfo d = new DirectoryInfo(@Path);
+            directory = new Directory(d.GetFiles(), d.GetDirectories(), @Path);
+            fileTree.Add(directory);
+
             collectSubDirectories();
 
             foreach(Directory dr in fileTree){
@@ -80,15 +83,30 @@ namespace MultiFileRenameTool
                 FileInfo[] infos = d.GetFiles();
                 try
                 {
+                    int version = 1;
                     foreach (FileInfo f in infos)
-                    {
-                        File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, ""));
+                    {                        
+                        try
+                        {
+                            File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, ""));
+                        }
+                        catch (System.IO.IOException)
+                        {
+                            File.Move(f.FullName, f.FullName.Replace(WordToRemoveTxb.Text, " " + version));
+                            version++;
+                        }
                     }
+                    
                 }
                 catch (ArgumentException)
                 {
                     ErrorLbl.Text += "The Folder does not contain a file with the text that you entered";
                 }
+                
+                //catch (file)
+                //{
+
+                //}
 
             }
         }
